@@ -1,14 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
 import {
   decrement,
   increment,
-  incrementBAmount,
+  incrementByAmount,
 } from "./redux/features/counter/counterSlice";
-import { RootState } from "./redux/store";
+import { useAppDispatch, useAppSelector } from "./redux/hook";
 
 function App() {
-  const { count } = useSelector((state: RootState) => state.counter);
-  const dispatch = useDispatch();
+  const { count } = useAppSelector((state) => state.counter);
+  const dispatch = useAppDispatch();
 
   return (
     <div className="mx-auto max-w-2xl h-auto">
@@ -17,7 +16,7 @@ function App() {
           Increment
         </button>
 
-        <button className="p-10" onClick={() => dispatch(incrementBAmount(5))}>
+        <button className="p-10" onClick={() => dispatch(incrementByAmount(5))}>
           Increment
         </button>
         <div>{count}</div>
