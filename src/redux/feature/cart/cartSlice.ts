@@ -13,16 +13,35 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<IProduct>) => {
-      const existingProduct = state.products.find((product)  => product._id === action.payload._id)
-      if(existingProduct){
-        existingProduct.quantity = existingProduct.quantity! +1
-console.log('Testing for existing product');
-      }else{
-      state.products.push({...action.payload, quantity: 1});
+      const existingProduct = state.products.find(
+        (product) => product._id === action.payload._id
+      );
+      if (existingProduct) {
+        existingProduct.quantity = existingProduct.quantity! + 1;
+      } else {
+        state.products.push({ ...action.payload, quantity: 1 });
       }
+    },
+    removeOneFromCart: (state, action: PayloadAction<IProduct>) => {
+      const existingProduct = state.products.find(
+        (product) => product._id === action.payload._id
+      );
+      if (existingProduct && existingProduct.quantity! > 1) {
+        existingProduct.quantity = existingProduct.quantity! - 1;
+      } else {
+       state.products = state.products.filter(
+         (product) => product._id !== action.payload._id
+       );
+      }
+    },
+    removeFromCart: (state, action: PayloadAction<IProduct>) => {
+      state.products = state.products.filter(
+        (product) => product._id !== action.payload._id
+      );
     },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeOneFromCart, removeFromCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;
